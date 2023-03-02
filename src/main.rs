@@ -5,12 +5,7 @@ use std::fs;
 
 use crate::data_model::model::{Cities, Output};
 
-fn main() {
-    println!("Hello, world!");
-    solve().unwrap();
-}
-
-fn solve() -> Result<()> {
+fn main() -> Result<()> {
     let file = fs::read_to_string("./resources/E-n101-k8.vrp.json").unwrap();
     let data = file.as_str();
     let cities: Cities = serde_json::from_str(data)?;
@@ -19,7 +14,7 @@ fn solve() -> Result<()> {
 
     let coords = cities.cities.clone();
 
-    let route = solvers::nearest_neighbours::solve(cities.cities, cities.header.capacity);
+    let route = solvers::ant_colony::solve(cities.cities, cities.header.capacity);
 
     let output = Output {
         coords: coords.to_vec(),
